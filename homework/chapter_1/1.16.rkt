@@ -13,13 +13,21 @@
   ;; 迭代过程，a用于保存结果
   (define (expt-iter b n a)
     (cond ((= n 0) a)
-          ((even? n) (expt-iter b (/ n 2) (* (square b) a)))
+          ((even? n) (expt-iter b (- n 2) (* (square b) a)))
           (else (expt-iter b (- n 1) (* b a)))))
 
   (expt-iter b n 1))
 
 ;; test
+(fast-expt 2 0)
+(fast-expt 2 1)
 (fast-expt 3 2)
+(fast-expt 3 4)
+(fast-expt 2 7)
 (fast-expt 2 10)
+(fast-expt 3 5)
+(fast-expt 5 9)
+(fast-expt 5 21)
+(fast-expt 9 9)
 (fast-expt 31 24)
 (fast-expt 2.5 5)
