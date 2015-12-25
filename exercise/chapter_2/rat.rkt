@@ -2,8 +2,18 @@
 
 ;; 有理数的算数运算
 
+;; 计算最大公约数的过程
+(define (gcd a b)
+  (if (= b 0)
+      a
+      (gcd b (remainder a b))))
+
 ;; 有理数的表示
-(define (make-rat n d) (cons n d))
+;; 使用gcd化简该有理数
+(define (make-rat n d)
+  (let ((g (gcd n d)))
+    (cons (/ n g) (/ d g))))
+
 ;; 取出分子
 (define (numer x)
   (car x))
