@@ -23,6 +23,19 @@
       list2
       (cons (car list1) (append (cdr list1) list2))))
 
+;; 判断是否为素数
+(define (prime? n)
+  (define (smallest-divisor n)
+    (find-divisor n 2))
+  (define (find-divisor n test-divisor)
+    (cond ((> (square test-divisor) n) n)
+          ((divides? test-divisor n) test-divisor)
+          (else (find-divisor n (+ test-divisor 1)))))
+  (define (divides? a b)
+    (= (remainder b a) 0))
+
+  (= n (smallest-divisor n)))
+
 ;; 一颗用于测试的树
 (define test-tree (list 1
                         (list 2
@@ -112,3 +125,33 @@
                            (enumerate-interval 0 n)))))
 ;; test
 (even-fibs2 10)
+
+(newline)
+
+;; 嵌套映射
+;;(accumulate append
+;;            null
+;;            (map (lambda (i)
+;;                   (map (lambda(j) (list i j))
+;;                        (enumerate-interval 1 (- i 1))))
+;;                 (enumerate-interval 1 6)))
+
+(define (flatmap proc seq)
+  (accumulate append null (map proc seq)))
+
+(define (prime-sum? pair)
+ (prime? (+ (car pair) (cadr pair))))
+
+(define (make-pair-sum pair)
+  (list (car pair) (cadr pair) (+ (car pair) (cadr pair))))
+
+(define (prime-sum-paires n)
+  (map make-pair-sum
+       (filter prime-sum?
+               (flatmap
+                (lambda (i)
+                  (map (lambda(j) (list i j))
+                       (enumerate-interval 1 (- i 1))))
+               (enumerate-interval 1 n)))))
+;; test
+(prime-sum-paires 6)
